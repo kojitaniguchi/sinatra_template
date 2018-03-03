@@ -56,7 +56,7 @@ $ bundle install --without production
 ```ruby:app.rb
 # Bundler.setupはGemfileの依存関係をrequireできるようload pathを設定する。
 require 'bundler/setup'
-# Bundler.requireはGemfileのgroupに設定されたgemをrequireする
+# Bundler.requireはGemfileのgemを一括でrequireしている
 Bundler.require
 
 # コードを変更するたびに再起動しなくてよい,sinatra-contribのライブラリの一つ
@@ -68,6 +68,9 @@ get '/' do
 end
 
 ```
+
+※require "sinatra"するとat_exitでSinatra::Application.run!がフックされる。(Bundler.requireでrequireされている)
+Sinatra::ApplicationはRack::Serverのサブクラスではないので、newの際にRack::BuilderDSLを呼んだり、run!の際にRack::Handlerを探したりする実装が含まれている。
 
 6.起動
 ** 保存を確認して 起動 **
